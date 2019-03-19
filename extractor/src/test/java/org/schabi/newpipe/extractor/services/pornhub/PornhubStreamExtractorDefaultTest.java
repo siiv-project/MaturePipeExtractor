@@ -18,7 +18,7 @@ public class PornhubStreamExtractorDefaultTest {
 	public static void setUp() throws Exception {
 		NewPipe.init(Downloader.getInstance(), new Localization("GB", "en"));
 		extractor = (PornhubStreamExtractor) Pornhub
-			.getStreamExtractor("https://en.pornhub.com/view_video.php?viewkey=ph5c8619953df49");
+			.getStreamExtractor("https://www.pornhub.com/view_video.php?viewkey=ph5c8619953df49");
 		extractor.fetchPage();
 	}
 

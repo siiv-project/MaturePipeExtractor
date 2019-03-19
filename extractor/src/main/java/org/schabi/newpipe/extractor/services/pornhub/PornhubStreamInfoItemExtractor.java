@@ -56,7 +56,7 @@ public class PornhubStreamInfoItemExtractor implements StreamInfoItemExtractor {
 
 	@Override
 	public String getUrl() throws ParsingException {
-		return item.getElementsByClass("linkVideoThumb").attr("href");
+		return "https://www.pornhub.com" + item.getElementsByClass("linkVideoThumb").attr("href");
 	}
 
 	@Override

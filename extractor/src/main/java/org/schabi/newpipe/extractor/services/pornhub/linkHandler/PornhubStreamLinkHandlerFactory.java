@@ -39,7 +39,8 @@ public class PornhubStreamLinkHandlerFactory extends LinkHandlerFactory {
 	public boolean onAcceptUrl(String url) throws ParsingException {
 		try {
 			Utils.stringToURL(url);
-			return true;
+
+			return url.startsWith("http:") || url.startsWith("https:");
 		} catch (MalformedURLException e) {
 			return false;
 		}

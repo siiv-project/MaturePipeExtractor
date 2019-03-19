@@ -19,6 +19,7 @@ import org.schabi.newpipe.extractor.linkhandler.SearchQueryHandler;
 import org.schabi.newpipe.extractor.linkhandler.SearchQueryHandlerFactory;
 import org.schabi.newpipe.extractor.playlist.PlaylistExtractor;
 import org.schabi.newpipe.extractor.search.SearchExtractor;
+import org.schabi.newpipe.extractor.services.pornhub.linkHandler.PornhubStreamLinkHandlerFactory;
 import org.schabi.newpipe.extractor.stream.StreamExtractor;
 import org.schabi.newpipe.extractor.subscription.SubscriptionExtractor;
 import org.schabi.newpipe.extractor.utils.Localization;
@@ -47,7 +48,7 @@ public class PornhubService extends StreamingService {
 
 	@Override
 	public LinkHandlerFactory getStreamLHFactory() {
-		return null;
+		return PornhubStreamLinkHandlerFactory.getInstance();
 	}
 
 	@Override

@@ -18,6 +18,6 @@ public class PornhubStreamLinkHandlerFactoryTest {
 
 	@Test
 	public void testGetId() throws Exception {
-		Assert.assertEquals("ph5c6770b8cefff", linkHandler.fromUrl("/view_video.php?viewkey=ph5c6770b8cefff").getId());
+		Assert.assertEquals("ph5c8619953df49", linkHandler.fromUrl("https://en.pornhub.com/view_video.php?viewkey=ph5c8619953df49").getId());
 	}
 }

@@ -123,7 +123,7 @@ public class PornhubService extends StreamingService {
 
 	@Override
 	public StreamExtractor getStreamExtractor(LinkHandler linkHandler, Localization localization) throws ExtractionException {
-		return null;
+		return new PornhubStreamExtractor(this, linkHandler, localization);
 	}
 
 	@Override

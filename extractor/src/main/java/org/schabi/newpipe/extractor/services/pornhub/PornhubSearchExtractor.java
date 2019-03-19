@@ -13,9 +13,6 @@ import org.schabi.newpipe.extractor.exceptions.ParsingException;
 import org.schabi.newpipe.extractor.linkhandler.SearchQueryHandler;
 import org.schabi.newpipe.extractor.search.InfoItemsSearchCollector;
 import org.schabi.newpipe.extractor.search.SearchExtractor;
-import org.schabi.newpipe.extractor.services.youtube.extractors.YoutubeChannelInfoItemExtractor;
-import org.schabi.newpipe.extractor.services.youtube.extractors.YoutubePlaylistInfoItemExtractor;
-import org.schabi.newpipe.extractor.services.youtube.extractors.YoutubeStreamInfoItemExtractor;
 import org.schabi.newpipe.extractor.utils.Localization;
 
 public class PornhubSearchExtractor extends SearchExtractor {

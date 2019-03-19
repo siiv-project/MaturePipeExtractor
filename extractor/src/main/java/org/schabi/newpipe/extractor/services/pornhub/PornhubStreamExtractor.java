@@ -159,7 +159,7 @@ public class PornhubStreamExtractor extends StreamExtractor {
 
 	@Override
 	public StreamType getStreamType() throws ParsingException {
-		return null;
+		return StreamType.VIDEO_STREAM;
 	}
 
 	@Override

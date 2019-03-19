@@ -2,6 +2,7 @@ package org.schabi.newpipe.extractor.services.pornhub;
 
 import org.jsoup.nodes.Element;
 import org.schabi.newpipe.extractor.exceptions.ParsingException;
+import org.schabi.newpipe.extractor.services.youtube.linkHandler.YoutubeParsingHelper;
 import org.schabi.newpipe.extractor.stream.StreamInfoItemExtractor;
 import org.schabi.newpipe.extractor.stream.StreamType;
 
@@ -15,7 +16,7 @@ public class PornhubStreamInfoItemExtractor implements StreamInfoItemExtractor {
 
 	@Override
 	public StreamType getStreamType() throws ParsingException {
-		return null;
+		return StreamType.VIDEO_STREAM;
 	}
 
 	@Override
@@ -25,7 +26,7 @@ public class PornhubStreamInfoItemExtractor implements StreamInfoItemExtractor {
 
 	@Override
 	public long getDuration() throws ParsingException {
-		return 0;
+		return  YoutubeParsingHelper.parseDurationString(item.getElementsByClass("duration").text());
 	}
 
 	@Override

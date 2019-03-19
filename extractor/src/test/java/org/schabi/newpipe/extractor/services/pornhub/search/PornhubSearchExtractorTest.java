@@ -2,7 +2,9 @@ package org.schabi.newpipe.extractor.services.pornhub.search;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.schabi.newpipe.Downloader;
@@ -11,6 +13,7 @@ import org.schabi.newpipe.extractor.ListExtractor;
 import org.schabi.newpipe.extractor.NewPipe;
 import static org.schabi.newpipe.extractor.ServiceList.Pornhub;
 import org.schabi.newpipe.extractor.services.pornhub.PornhubSearchExtractor;
+import org.schabi.newpipe.extractor.stream.StreamInfoItem;
 import org.schabi.newpipe.extractor.utils.Localization;
 
 public class PornhubSearchExtractorTest {
@@ -37,12 +40,23 @@ public class PornhubSearchExtractorTest {
 	}
 
 	@Test
-	public void testInfoExtraction() throws Exception {
+	public void testInfoItemExtraction() throws Exception {
 		InfoItem infoItem = itemsPage.getItems().get(0);
 
 		assertNotNull(infoItem.getInfoType());
 		assertNotNull(infoItem.getName());
 		assertNotNull(infoItem.getUrl());
 		assertNotNull(infoItem.getThumbnailUrl());
+	}
+
+	@Test
+	public void testStreamItemExtraction() throws Exception {
+		InfoItem infoItem = itemsPage.getItems().get(0);
+		assertTrue(infoItem instanceof StreamInfoItem);
+
+		StreamInfoItem streamInfoItem = (StreamInfoItem) infoItem;
+
+		assertNotNull(streamInfoItem.getStreamType());
+		assertNotEquals(0, streamInfoItem.getDuration());
 	}
 }

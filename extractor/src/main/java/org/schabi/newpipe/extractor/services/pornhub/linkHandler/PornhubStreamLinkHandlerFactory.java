@@ -37,6 +37,11 @@ public class PornhubStreamLinkHandlerFactory extends LinkHandlerFactory {
 
 	@Override
 	public boolean onAcceptUrl(String url) throws ParsingException {
-		return true;
+		try {
+			Utils.stringToURL(url);
+			return true;
+		} catch (MalformedURLException e) {
+			return false;
+		}
 	}
 }

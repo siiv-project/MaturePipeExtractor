@@ -2,16 +2,16 @@ package org.schabi.newpipe.extractor.services.pornhub;
 
 import java.io.IOException;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import javax.annotation.Nonnull;
 import javax.script.ScriptEngine;
 import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
-import jdk.nashorn.api.scripting.AbstractJSObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.mozilla.javascript.NativeArray;
+import org.mozilla.javascript.NativeObject;
 import org.schabi.newpipe.extractor.Downloader;
 import org.schabi.newpipe.extractor.MediaFormat;
 import org.schabi.newpipe.extractor.StreamingService;
@@ -32,7 +32,7 @@ public class PornhubStreamExtractor extends StreamExtractor {
 	private String pageHtml = null;
 	private Document doc;
 
-	private ScriptEngine engine = new ScriptEngineManager().getEngineByName("nashorn");
+	private ScriptEngine engine = new ScriptEngineManager().getEngineByName("rhino");
 
 	public PornhubStreamExtractor(StreamingService service, LinkHandler linkHandler, Localization localization) {
 		super(service, linkHandler, localization);
@@ -124,14 +124,15 @@ public class PornhubStreamExtractor extends StreamExtractor {
 	@Override
 	public List<VideoStream> getVideoStreams() throws IOException, ExtractionException {
 		List<VideoStream> streams = new ArrayList<>();
-		Map<String, AbstractJSObject> flashVars = getFlashVars();
-		Collection<Object> mediaDefinitions = flashVars.get("mediaDefinitions").values();
+		Map<String, Object> flashVars = getFlashVars();
+		NativeArray mediaDefinitions = (NativeArray) flashVars.get("mediaDefinitions");
+
 		for (Object definition : mediaDefinitions) {
-			AbstractJSObject def = (AbstractJSObject) definition;
+			NativeObject def = (NativeObject) definition;
 
 			if (def != null) {
-				String url = (String) def.getMember("videoUrl");
-				String resolution = (String) def.getMember("quality");
+				String url = (String) def.get("videoUrl");
+				String resolution = (String) def.get("quality");
 				streams.add(new VideoStream(url, MediaFormat.MPEG_4, resolution));
 			}
 		}
@@ -205,7 +206,7 @@ public class PornhubStreamExtractor extends StreamExtractor {
 		return pageHtml;
 	}
 
-	private Map<String, AbstractJSObject> getFlashVars() {
-		return (Map<String, AbstractJSObject>) engine.getContext().getAttribute("flashvars_212446492");
+	private Map<String, Object> getFlashVars() {
+		return (Map<String, Object>) engine.getContext().getAttribute("flashvars_212446492");
 	}
 }

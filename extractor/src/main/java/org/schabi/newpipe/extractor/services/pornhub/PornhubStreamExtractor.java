@@ -199,6 +199,7 @@ public class PornhubStreamExtractor extends StreamExtractor {
 				engine.eval("var loadScriptVar = [];");
 				engine.eval("var playerObjList = [];");
 				engine.eval(jsCode);
+				engine.eval("var flashvars = loadScriptVar[0]");
 			} catch (ScriptException e) {
 				e.printStackTrace();
 			}
@@ -207,6 +208,6 @@ public class PornhubStreamExtractor extends StreamExtractor {
 	}
 
 	private Map<String, Object> getFlashVars() {
-		return (Map<String, Object>) engine.getContext().getAttribute("flashvars_212446492");
+		return (Map<String, Object>) engine.getContext().getAttribute("flashvars");
 	}
 }

@@ -50,16 +50,16 @@ public class PornhubStreamInfoItemExtractor implements StreamInfoItemExtractor {
 
 	@Override
 	public String getName() throws ParsingException {
-		return null;
+		return item.getElementsByClass("linkVideoThumb").attr("title");
 	}
 
 	@Override
 	public String getUrl() throws ParsingException {
-		return null;
+		return item.getElementsByClass("linkVideoThumb").attr("href");
 	}
 
 	@Override
 	public String getThumbnailUrl() throws ParsingException {
-		return null;
+		return item.getElementsByTag("img").attr("data-thumb_url");
 	}
 }

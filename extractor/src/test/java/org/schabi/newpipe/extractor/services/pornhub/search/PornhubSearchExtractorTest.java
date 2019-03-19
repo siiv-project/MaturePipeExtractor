@@ -2,6 +2,7 @@ package org.schabi.newpipe.extractor.services.pornhub.search;
 
 import static java.util.Arrays.asList;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import org.junit.BeforeClass;
 import org.junit.Test;
 import org.schabi.newpipe.Downloader;
@@ -33,5 +34,15 @@ public class PornhubSearchExtractorTest {
 	@Test
 	public void testInitialPageItems() throws Exception {
 		assertEquals(20, itemsPage.getItems().size());
+	}
+
+	@Test
+	public void testInfoExtraction() throws Exception {
+		InfoItem infoItem = itemsPage.getItems().get(0);
+
+		assertNotNull(infoItem.getInfoType());
+		assertNotNull(infoItem.getName());
+		assertNotNull(infoItem.getUrl());
+		assertNotNull(infoItem.getThumbnailUrl());
 	}
 }

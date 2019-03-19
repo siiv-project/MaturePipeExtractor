@@ -1,6 +1,7 @@
 package org.schabi.newpipe.extractor;
 
 import org.schabi.newpipe.extractor.services.media_ccc.MediaCCCService;
+import org.schabi.newpipe.extractor.services.pornhub.PornhubService;
 import org.schabi.newpipe.extractor.services.soundcloud.SoundcloudService;
 import org.schabi.newpipe.extractor.services.youtube.YoutubeService;
 
@@ -38,6 +39,7 @@ public final class ServiceList {
     public static final YoutubeService YouTube;
     public static final SoundcloudService SoundCloud;
     public static final MediaCCCService MediaCCC;
+    public static final PornhubService Pornhub;
 
     /**
      * When creating a new service, put this service in the end of this list,
@@ -47,7 +49,8 @@ public final class ServiceList {
             asList(
                     YouTube = new YoutubeService(0),
                     SoundCloud = new SoundcloudService(1),
-                    MediaCCC = new MediaCCCService(2)
+                    MediaCCC = new MediaCCCService(2),
+                    Pornhub = new PornhubService(3)
             ));
 
     /**

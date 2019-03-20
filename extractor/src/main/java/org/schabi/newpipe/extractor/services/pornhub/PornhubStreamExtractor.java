@@ -121,7 +121,20 @@ public class PornhubStreamExtractor extends StreamExtractor {
 
 	@Override
 	public List<AudioStream> getAudioStreams() throws IOException, ExtractionException {
-		return new ArrayList<>();
+		List<AudioStream> streams = new ArrayList<>();
+		Map<String, Object> flashVars = getFlashVars();
+		NativeArray mediaDefinitions = (NativeArray) flashVars.get("mediaDefinitions");
+
+		for (Object definition : mediaDefinitions) {
+			NativeObject def = (NativeObject) definition;
+
+			if (def != null) {
+				String url = (String) def.get("videoUrl");
+				streams.add(new AudioStream(url, MediaFormat.M4A, -1));
+			}
+		}
+
+		return streams;
 	}
 
 	@Override

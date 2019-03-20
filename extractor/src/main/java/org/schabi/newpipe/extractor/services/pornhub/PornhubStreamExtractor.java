@@ -10,6 +10,7 @@ import javax.script.ScriptEngineManager;
 import javax.script.ScriptException;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
 import org.mozilla.javascript.NativeArray;
 import org.mozilla.javascript.NativeObject;
 import org.schabi.newpipe.extractor.Downloader;
@@ -18,6 +19,8 @@ import org.schabi.newpipe.extractor.StreamingService;
 import org.schabi.newpipe.extractor.exceptions.ExtractionException;
 import org.schabi.newpipe.extractor.exceptions.ParsingException;
 import org.schabi.newpipe.extractor.linkhandler.LinkHandler;
+import org.schabi.newpipe.extractor.search.InfoItemsSearchCollector;
+import org.schabi.newpipe.extractor.search.SearchExtractor;
 import org.schabi.newpipe.extractor.stream.AudioStream;
 import org.schabi.newpipe.extractor.stream.StreamExtractor;
 import org.schabi.newpipe.extractor.stream.StreamInfoItem;
@@ -164,12 +167,40 @@ public class PornhubStreamExtractor extends StreamExtractor {
 
 	@Override
 	public StreamInfoItem getNextStream() throws IOException, ExtractionException {
-		return null;
+		return getRelatedStreams().getStreamInfoItemList().get(0);
 	}
 
 	@Override
 	public StreamInfoItemsCollector getRelatedStreams() throws IOException, ExtractionException {
-		return null;
+
+		StreamInfoItemsCollector collector = new StreamInfoItemsCollector(getServiceId());
+
+		Element list = doc.select("ul[id=\"relateRecommendedItems\"]").first();
+
+		for (Element item : list.children()) {
+            /* First we need to determine which kind of item we are working with.
+               Youtube depicts five different kinds of items on its search result page. These are
+               regular videos, playlists, channels, two types of video suggestions, and a "no video
+               found" item. Since we only want videos, we need to filter out all the others.
+               An example for this can be seen here:
+               https://www.youtube.com/results?search_query=asdf&page=1
+
+               We already applied a filter to the url, so we don't need to care about channels and
+               playlists now.
+            */
+
+			Element el;
+
+			if ((el = item.select("div[class*=\"search-message\"]").first()) != null) {
+				throw new SearchExtractor.NothingFoundException(el.text());
+
+				// video item type
+			} else if ((el = item.select("li[class*=\"js-pop videoblock videoBox\"]").first()) != null) {
+				collector.commit(new PornhubStreamInfoItemExtractor(el));
+			}
+		}
+
+		return collector;
 	}
 
 	@Override
@@ -179,7 +210,7 @@ public class PornhubStreamExtractor extends StreamExtractor {
 
 	@Override
 	public void onFetchPage(@Nonnull Downloader downloader) throws IOException, ExtractionException {
-		final String pageContent = getPageHtml(downloader);
+		getPageHtml(downloader);
 	}
 
 	@Nonnull

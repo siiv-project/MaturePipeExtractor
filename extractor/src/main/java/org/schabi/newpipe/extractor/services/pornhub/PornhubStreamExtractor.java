@@ -61,7 +61,7 @@ public class PornhubStreamExtractor extends StreamExtractor {
 
 	@Override
 	public int getAgeLimit() throws ParsingException {
-		return 0;
+		return 18;
 	}
 
 	@Override
@@ -76,29 +76,29 @@ public class PornhubStreamExtractor extends StreamExtractor {
 
 	@Override
 	public long getViewCount() throws ParsingException {
-		return 0;
+		return Long.valueOf(doc.select(".rating-info-container .views .count").text().replaceAll(",", ""));
 	}
 
 	@Override
 	public long getLikeCount() throws ParsingException {
-		return 0;
+		return Long.valueOf(doc.select("span.votesUp").text());
 	}
 
 	@Override
 	public long getDislikeCount() throws ParsingException {
-		return 0;
+		return Long.valueOf(doc.select("span.votesDown").text());
 	}
 
 	@Nonnull
 	@Override
 	public String getUploaderUrl() throws ParsingException {
-		return "";
+		return doc.select(".usernameWrap a").attr("href");
 	}
 
 	@Nonnull
 	@Override
 	public String getUploaderName() throws ParsingException {
-		return "";
+		return doc.select(".usernameWrap a").text();
 	}
 
 	@Nonnull

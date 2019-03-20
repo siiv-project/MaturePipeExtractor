@@ -1,6 +1,9 @@
 package org.schabi.newpipe.extractor.services.pornhub;
 
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import javax.annotation.Nonnull;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -14,6 +17,7 @@ import org.schabi.newpipe.extractor.linkhandler.SearchQueryHandler;
 import org.schabi.newpipe.extractor.search.InfoItemsSearchCollector;
 import org.schabi.newpipe.extractor.search.SearchExtractor;
 import org.schabi.newpipe.extractor.utils.Localization;
+import org.schabi.newpipe.extractor.utils.Parser;
 
 public class PornhubSearchExtractor extends SearchExtractor {
 
@@ -42,12 +46,15 @@ public class PornhubSearchExtractor extends SearchExtractor {
 
 	@Override
 	public String getNextPageUrl() throws IOException, ExtractionException {
-		return null;
+		return getUrl() + "&page=" + 2;
 	}
 
 	@Override
 	public InfoItemsPage<InfoItem> getPage(String pageUrl) throws IOException, ExtractionException {
-		return null;
+		String site = getDownloader().download(pageUrl);
+		doc = Jsoup.parse(site, pageUrl);
+
+		return new InfoItemsPage<>(collectItems(doc), getNextPageUrlFromCurrentUrl(pageUrl));
 	}
 
 	@Override
@@ -90,5 +97,16 @@ public class PornhubSearchExtractor extends SearchExtractor {
 		}
 
 		return collector;
+	}
+
+	private String getNextPageUrlFromCurrentUrl(String currentUrl) throws MalformedURLException, UnsupportedEncodingException {
+		final int pageNr = Integer.parseInt(
+			Parser.compatParseMap(
+				new URL(currentUrl)
+					.getQuery())
+				.get("page"));
+
+		return currentUrl.replace("&page=" + pageNr,
+			"&page=" + (pageNr + 1));
 	}
 }
